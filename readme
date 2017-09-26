@@ -1,7 +1,48 @@
-missing work :
+Mouse gesture recognition project using HMM.
+The currently working classifier is based on Discrete HMM trained on mouse coordinates
+converted to angles between models and quantized into specific ranges of angles.
+The implementation exploits vectorized numpy operations to speed up training and inference time.
 
-1)Add create,save and load classifier model buttons
-2)complete prediction button functionality
-3)Baumwelch unit testing
-3)integration testing
-4)Workaround quantization
+Future work is to consider :
+ 1)Further exploitation of multiple training sequences based on Rabiner's approach.However the
+     model accuracy is > 99.5%. But this may be useful for more complex problems.
+ 2)continuous GMM availability.
+ 3)GUI improvements and adding features.
+
+
+ Note : The project is modularized (ie: quantization module or HMM module...etc can be used
+ seperately.
+
+Dependencies:
+1)Python
+2)Numpy
+3)Tkinter
+
+Although you can collect your dataset easily through the interface and train the
+model in less than half a minute, There is an already trained model for quick testing
+
+** This trained model classifies these 7 gestures :
+ 0 -----> Nike sign
+
+         .->--->---|
+                   |
+  1 ----->         |         |
+                   |
+
+           |--<---<----.
+  2 -----> |
+           |
+           |
+
+  3 ----->    <
+
+  4 ----->    >
+
+  5 ------>   |--<----<--.
+              |          |
+              |          |
+              |->--->----|
+
+  6 ------->  equilateral Triangle (Top then left side(up-down)
+              then base then right side(down-up)
+              
