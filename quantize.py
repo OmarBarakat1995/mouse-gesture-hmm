@@ -8,7 +8,7 @@ def coordinates_to_angles(l):
         d = math.degrees(r)
         a.append(d)
 
-    print(a)
+    #print(a)
     return a
 
 
@@ -30,7 +30,7 @@ def quantize_sample(l, n, step=1):
     s = l[::step]
     qd = list(map(lambda x: round(x/noise), s))
     qd = list(map(trim, qd))  # now in case of n=8 , 0 represents range(-112.5,157.5)
-    print(qd)
+    #print(qd)
     return qd
 
 

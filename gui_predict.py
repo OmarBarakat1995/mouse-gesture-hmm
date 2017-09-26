@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter.colorchooser import askcolor
 from tkinter import messagebox
+import save_load
+import os
+import quantize
 
 
 class Application(Frame):
@@ -50,8 +53,9 @@ class Application(Frame):
             pady=20, padx=20, sticky=S,
         )
 
-        Button(self.leftFrame, text='dismiss', command=self.dismiss).grid(row=5, column=0, sticky=NW, pady=5, padx=3)
-        Button(self.leftFrame, text='Predict', command=self.predict).grid(row=6, column=0, sticky=NW, pady=5, padx=3)
+        Button(self.leftFrame, text='load model', command=self.load_c).grid(row=5, column=0, sticky=NW, pady=5, padx=3)
+        Button(self.leftFrame, text='dismiss', command=self.dismiss).grid(row=6, column=0, sticky=NW, pady=5, padx=3)
+        Button(self.leftFrame, text='Predict', command=self.predict).grid(row=7, column=0, sticky=NW, pady=5, padx=3)
 
         # ----------------------------------------------------------------------
         self.myCanvas = Canvas(self, width=800,
@@ -99,6 +103,10 @@ class Application(Frame):
         color = askcolor()
         self.rgb=(color[1])
 
+    def load_c(self):
+        self.my_classifier = save_load.load_from_disk(os.path.join("models/", "0" + ".txt"))
+        messagebox.showinfo("Classifier loaded successfully")
+
     def dismiss(self):
         print(self.coordinates)
         # complete this function
@@ -108,7 +116,8 @@ class Application(Frame):
         self.coordinates = []
 
     def predict(self):
-        messagebox.showinfo("Predicted gesture", "class:")
+        quantized = quantize.quantize_sample(self.coordinates,8)
+        messagebox.showinfo("Predicted gesture", self.my_classifier.predict(quantized))
 
 
 root = Tk()

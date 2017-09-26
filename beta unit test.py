@@ -18,21 +18,21 @@ emission_pb = np.array([[  3.49222797e-02  , 5.93186855e-02  , 1.37877557e-01  ,
 
 
 sequence = [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 4.0, 5.0, 5.0, 5.0, 1.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.0]
+T = len(sequence)
+beta_v = np.ones(shape=(n, len(sequence)))
+for t in reversed(range(len(sequence) - 1)):
+    b = beta_v[:, t + 1].reshape(1, n)
+    beta_v[:, t] = np.sum(b * emission_pb[:, sequence[t + 1]].reshape(1,n) * transition_pb, axis=1)
+    print(sequence[t + 1])
+    print(emission_pb[:, sequence[t + 1]].reshape(n, 1))
+    print("//////////////////")
+print(beta_v)
 
-alpha_v = np.ndarray(shape=(n, len(sequence)))
-alpha_v[:, 0] = pi * emission_pb[:, sequence[0]]
+a=transition_pb
+b=emission_pb
 
-for t in range(len(sequence) - 1):
-    f = alpha_v[:, t].reshape(n, 1)
-    alpha_v[:, t + 1] = np.sum(f * transition_pb, axis=0) * emission_pb[:, sequence[t + 1]]
+#beta_0_T_2 = a[0,0]*b[0,1] + a[0,1]*b[1,1] + a[0,2]*b[2,1] + a[0,3]*b[3,1] + a[0,4]*b[4,1]
+beta_0_T_3 = beta_v[0,T-2]*a[0,0]*b[0,2] + beta_v[1,T-2]*a[0,1]*b[1,2] + beta_v[2,T-2]*a[0,2]*b[2,2] + beta_v[3,T-2]*a[0,3]*b[3,2] + beta_v[4,T-2]*a[0,4]*b[4,2]
 
+print(beta_0_T_3)
 
-print( alpha_v)
-alpha_0_t1 = 2.25910991e-01*(4.51821982e-02*0.35792595 + 4.15882230e-02*0.1989225 +1.28982608e-02*0.36852727 +2.48379400e-03*0.15373549 +2.59841568e-02*0.06506047 )
-alpha_2_t1 = emission_pb[2,5]*(4.51821982e-02*transition_pb[0,2] + 4.15882230e-02*transition_pb[1,2] +1.28982608e-02*transition_pb[2,2] +2.48379400e-03*transition_pb[3,2] +2.59841568e-02*transition_pb[4,2] )
-
-print(alpha_0_t1)
-print(alpha_2_t1)
-
-ev = np.sum(alpha_v[:, -1])
-print("ev",ev)

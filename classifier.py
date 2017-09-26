@@ -1,6 +1,6 @@
 from path import path
 import pickle
-from quantize import quantize
+from quantize import quantize_sample
 from hmm import *
 
 
@@ -25,7 +25,7 @@ class Classifier:
         for i in range(self.n_classes):
             quantized = []
             for seq in range(len(self.data[i])):
-                quantized.append(quantize(self.data[i][seq], self.q))
+                quantized.append(quantize_sample(self.data[i][seq], self.q))
             self.hmm_models.append(DiscreteHMM(self.q, no_of_hidden_states_list[i]))
             self.hmm_models[i].train(quantized, method="BW", no_epochs=no_epochs)
 
@@ -34,7 +34,7 @@ class Classifier:
         for i in range(self.n_classes):
             ev = self.hmm_models[i].evaluate(observation_sequence)
             evaluations.append(ev)
-            print(ev)
+            #print(ev)
         maxIndex, maxValue = max(enumerate(evaluations), key=lambda v: v[1])
         return maxIndex, maxValue
 
