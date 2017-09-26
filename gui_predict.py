@@ -117,10 +117,10 @@ class Application(Frame):
 
     def predict(self):
         quantized = quantize.quantize_sample(self.coordinates,8)
-        messagebox.showinfo("Predicted gesture", self.my_classifier.predict(quantized))
+        messagebox.showinfo("Predicted gesture", " "*10 + str(self.my_classifier.predict(quantized)) + " "*10)
 
-
-root = Tk()
-root.title("Draw")
-app = Application(root)
-root.mainloop()
+if __name__ == "__main__":
+    root = Tk()
+    root.title("Draw")
+    app = Application(root)
+    root.mainloop()

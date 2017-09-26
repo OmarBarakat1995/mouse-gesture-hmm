@@ -36,7 +36,7 @@ class Classifier:
             evaluations.append(ev)
             #print(ev)
         maxIndex, maxValue = max(enumerate(evaluations), key=lambda v: v[1])
-        return maxIndex, maxValue
+        return maxIndex
 
 
 

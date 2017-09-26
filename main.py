@@ -1,12 +1,14 @@
 from tkinter import *
-import os
 from classifier import *
 from tkinter import messagebox
 import save_load
-import external
+import gui_predict
+import gui_collect
+import os
 
-class App:
+class App(Frame):
     def __init__(self, master):
+        super().__init__(master)
         frame = Frame(master)
         frame.pack()
         self.collect = Button(frame,
@@ -26,14 +28,17 @@ class App:
 
         self.button_p = Button(frame,
                              text="Predict gestures",fg="#%02x%02x%02x"% (128, 192, 200),
-                             command=quit)
+                             command=self.prediction)
         self.button_p.pack(padx=5, pady=20, side=LEFT)
 
 
 
     def collect(self):
         self.master.destroy()
-        os.system('python gui_predict.py')
+        c_root = Tk()
+        c_root.title("Collect training examples")
+        gui_collect.Application(c_root)
+        c_root.mainloop()
 
     def create_c(self):
         self.my_classifier = Classifier("dataset")
@@ -42,17 +47,17 @@ class App:
 
     def save_c(self):
         save_load.save_to_disk(self.my_classifier, os.path.join("models", "0" + ".txt"))
-        messagebox.showinfo("Classifier created successfully")
+        messagebox.showinfo("save", "Classifier saved successfully")
 
     def prediction(self):
         self.master.destroy()
-        os.system('python gui_predict.py')
+        p_root = Tk()
+        p_root.title("Draw")
+        gui_predict.Application(p_root)
+        p_root.mainloop()
 
 
-
-
-
-
-root = Tk()
-app = App(root)
-root.mainloop()
+if __name__ == "__main__":
+    root = Tk()
+    app = App(root)
+    root.mainloop()

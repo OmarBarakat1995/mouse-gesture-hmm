@@ -216,7 +216,8 @@ class Application(Frame):
         self.n.set(self.n.get()+1)
 
 
-root = Tk()
-root.title("Collect training examples")
-app = Application(root)
-root.mainloop()
+if __name__ == "__main__":
+    root = Tk()
+    root.title("Collect training examples")
+    app = Application(root)
+    root.mainloop()
